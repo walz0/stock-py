@@ -83,7 +83,7 @@ def getROIC(ticker):
                 dollars = []
                 for i, a in enumerate(amounts):
                     parsedAmount = str(a.text)
-                    delimiters = ['<td>', '</td>', '$', ',']
+                    delimiters = ['<td>', '</td>', '$', ',', '(', ')']
                     if('$' in parsedAmount):
                         for d in delimiters:
                             parsedAmount = parsedAmount.replace(d, '')
@@ -157,7 +157,13 @@ if __name__ == '__main__':
         'AMZN',
         'MCD',
         'PAGS',
-        'GLOB'
+        'GLOB',
+        'MSFT',
+        'TSLA',
+        'AAPL',
+        'REAL',
+        'NVDA',
+        'AMD'
     ]
     stats = []
 

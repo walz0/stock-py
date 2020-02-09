@@ -1,1 +1,0 @@
-{"people": [{"name": "Larry", "website": "google.com", "from": "Michigan"}, {"name": "Tim", "website": "apple.com", "from": "Alabama"}], "stocks": [{"ticker": "FB", "close": "257.34", "roic": "18.03", "peRatio": "28.02", "earningsYield": "0.033123"}]}

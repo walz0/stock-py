@@ -1,43 +1,73 @@
 import json
+import stock_pull as pull 
+import pprint
 
 data = {}
-data['people'] = []
 data['stocks'] = []
 
-data['stocks'].append({
-    'ticker': 'FB',
-    'close': '257.34',
-    'roic': '18.03',
-    'peRatio': '28.02',
-    'earningsYield' : '0.033123'
-})
+def recordTicker(ticker):
+    stockData = pull.getStock(ticker)
+    close = stockData['price']
+    dollarChange = stockData['change$']
+    percentChange = stockData['change%']
+    peRatio = pull.getPE(ticker)
+    roic = pull.getROIC(ticker)
+    if(peRatio != 0):
+        earningsYield = 1 / peRatio 
+    else:
+        earningsYield = None 
 
-data['people'].append({
-    'name': 'Larry',
-    'website': 'google.com',
-    'from': 'Michigan'
-})
+    data['stocks'].append({
+        'ticker': str(ticker),
+        'close': str(close),
+        'dollarChange': str(dollarChange), 
+        'percentChange': str(percentChange),
+        'roic': str(roic), 
+        'peRatio': str(peRatio),
+        'earningsYield' : str(earningsYield)   
+    })
 
-data['people'].append({
-    'name': 'Tim',
-    'website': 'apple.com',
-    'from': 'Alabama'
-})
+if __name__ == '__main__':
+    tickers = [
+        'FB',
+        'MU',
+        'AMZN',
+        'MCD',
+        'PAGS',
+        'GLOB',
+        'MSFT',
+        'TSLA',
+        'AAPL',
+        'REAL',
+        'NVDA',
+        'AMD'
+    ]
 
-with open('data.txt', 'w') as outfile:
-    json.dump(data, outfile)
+    # print("Downloading data...")
+    
+    # for ticker in tickers:
+    #     recordTicker(ticker)
+
+    # with open('data.json', 'w') as outfile:
+    #     json.dump(data, outfile)        
+
+    # pprint.pprint(data)
+
+    query = input('Enter a ticker: ').upper()
+
+    stocks = []
+    with open('data.json') as json_file:
+        data = json.load(json_file)
+        for s in data['stocks']:
+            stocks.append(s)
+
+    def queryJSONfile(ticker, json_file):
+        ticker = ticker.upper()
+        with open('data.json') as json_file:
+            data = json.load(json_file)
+            for s in data['stocks']:
+                if(s['ticker'] == ticker):
+                    return s
 
 
-with open('data.txt') as json_file:
-    data = json.load(json_file)
-    for p in data['people']:
-        print('Name: ' + p['name'])
-        print('Website: ' + p['website'])
-        print('From: ' + p['from'])
-        print('')
-    for s in data['stocks']:
-        print('Ticker: ' + s['ticker'])
-        print('Close: ' + s['close'])
-        print('ROIC: ' + s['roic'])
-        print('P/E Ratio: ' + s['peRatio'])
-        print('Earnings Yield: ' + s['earningsYield'])
+    pprint.pprint(queryJSONfile(query, json_file))
