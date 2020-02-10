@@ -50,10 +50,13 @@ def getStock(ticker):
         percentChangeText = float(percentChangeText) / 100
     except:
         percentChangeText = None
+    elements = soup.find(id='quote-header-info').find_all("h1")
     data = {
         "price": float(priceText),
         "change$": float(dollarChangeText),
-        "change%": percentChangeText
+        "change%": percentChangeText,
+        "ticker" : ticker,
+        "name" : elements[0].text
     }
     return data
 
@@ -158,9 +161,7 @@ def sortList(list, element, order):
 
 
 if __name__ == '__main__':
-    print(getCompanyName('FB'))
-
-
+    print("")
     # tickers = [
     #     'FB',
     #     'MU',
