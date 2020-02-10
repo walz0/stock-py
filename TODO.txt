@@ -1,0 +1,14 @@
+EDUC-X158 (OPTIONAL)
+    -Complete Note Taking Journal #3
+
+EALC-E111
+    (1/2)-Complete readings for Monday
+
+stock-py
+    + Framework for updating / pulling new information 
+        . A sort of language for quick access to commands
+            (e.g. 'pull ['FB', 'MCD', 'HD', ...] -> analysis.btm')
+                Outputs a list of stocks ranked by ROIC and Earnings Yield
+        . Query for ticker info, prompt for new info if stored locally
+            (e.g. 'pull FB') || (e.g. 'pull ['FB', 'MCD', 'HD'])
+                Outputs basic info (price, $, %)
