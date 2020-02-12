@@ -161,22 +161,23 @@ def sortList(list, element, order):
 
 
 if __name__ == '__main__':
-    print("")
-    # tickers = [
-    #     'FB',
-    #     'MU',
-    #     'AMZN',
-    #     'MCD',
-    #     'PAGS',
-    #     'GLOB',
-    #     'MSFT',
-    #     'TSLA',
-    #     'AAPL',
-    #     'REAL',
-    #     'NVDA',
-    #     'AMD'
-    # ]
-    # stats = []
+    print(getROIC("SPY")) 
+
+    tickers = [
+        'FB',
+        'MU',
+        'AMZN',
+        'MCD',
+        'PAGS',
+        'GLOB',
+        'MSFT',
+        'TSLA',
+        'AAPL',
+        'REAL',
+        'NVDA',
+        'AMD'
+    ]
+    stats = []
 
     # for ticker in tickers:
     #     data = getStock(ticker)
