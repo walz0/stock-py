@@ -66,11 +66,12 @@ def parseInput(stdin):
         if(t in stdin):
             sel_tags.append(t) 
 
-    # if(sel_keys[0] == 'pull'):
-    #     if(len(sel_tags) > 0):
+    if(sel_keys[0] == 'pull'):
+        if(len(sel_tags) > 0):
 
 
 if __name__ == '__main__':
     print("--- stock-py v{} ---".format(version))
-    stdin = input("> ")
-    print(parseInput(stdin))
+    while(True):
+        stdin = input("> ")
+        print(parseInput(stdin))
