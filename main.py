@@ -29,8 +29,6 @@ def parseInput(stdin):
         if(k in stdin):
             sel_keys.append(k) 
 
-    # Remove all spaces from string
-
     # Parse Input Object
     for sk in sel_keys:
         index = stdin.index(sk) + len(sk)
@@ -39,23 +37,34 @@ def parseInput(stdin):
         if(stdin[obj_index] == '['):
             sentinel = ']'
             for i, c in enumerate(stdin[obj_index:]):
-                if(c == ']'):
+                if(c == sentinel):
+                    # Grab raw string of list object
                     raw = stdin[obj_index:obj_index + (i + 1)]
+                    # Parse raw string with delimiters
                     delimiters = ["'", " ", "[", "]"]
                     for d in delimiters:
                         raw = raw.replace(d, '') 
+                    # Create list
                     obj = raw.split(',')
-                    return obj
+                    break
         #User has provided a single ticker 
         else: 
-           print("fish") 
+            sentinel = ' '
+            for i, c in enumerate(stdin[obj_index:]):
+                # String contains tags after object
+                if(c == sentinel):
+                    obj.append(stdin[obj_index:obj_index + (i + 1)])
+                    break
+                # String only contains keyword and object
+                else:
+                    obj.append(stdin[obj_index:])
+                    break
+        return obj
 
     # Parse Tags
     for t in tags:
         if(t in stdin):
             sel_tags.append(t) 
-
-
 
     # if(sel_keys[0] == 'pull'):
     #     if(len(sel_tags) > 0):
