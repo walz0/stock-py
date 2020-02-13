@@ -61,13 +61,14 @@ def parseInput(stdin):
                     break
         return obj
 
-    # Parse Tags
-    for t in tags:
-        if(t in stdin):
-            sel_tags.append(t) 
+    # if(sel_keys[0] == 'pull'):
+    #     if(len(sel_tags) > 0):
 
-    if(sel_keys[0] == 'pull'):
-        if(len(sel_tags) > 0):
+    # # Parse Tags
+    # for t in tags:
+    #     if(t in stdin):
+    #         sel_tags.append(t) 
+
 
 
 if __name__ == '__main__':

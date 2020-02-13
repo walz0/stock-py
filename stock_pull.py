@@ -1,6 +1,7 @@
 import requests
 from enum import Enum
 from bs4 import BeautifulSoup
+import sys
 
 def getStockPrice(ticker):
     page = requests.get("https://finance.yahoo.com/quote/{}".format(ticker))
@@ -78,6 +79,66 @@ def getPE(ticker):
         return float(parsedAmount)
     except:
         return 0 
+
+
+def getEarningsYield(ticker):
+    return 1 / getPE()
+
+
+def getIndustryNames():
+    page = requests.get("https://old.nasdaq.com/screening/companies-by-industry.aspx")
+    soup = BeautifulSoup(page.content, 'html.parser')
+    industries_raw = soup.find(id='industryshowall').find_all('a')
+    industries = []
+
+    for i in industries_raw:
+        industries.append(i.text)
+
+    return industries
+
+
+def getTickersByIndustry(industry, total):
+    # Get Industry links
+    page = requests.get("https://old.nasdaq.com/screening/companies-by-industry.aspx")
+    soup = BeautifulSoup(page.content, 'html.parser')
+    industries_raw = soup.find(id='industryshowall').find_all('a')
+    links = []
+
+    for i in industries_raw:
+        links.append("https://old.nasdaq.com" + i.get('href'))
+    
+    pages = 0
+
+    tickers = []
+    
+    for l in links:
+        if(industry in l):
+            page = requests.get(l)
+            soup = BeautifulSoup(page.content, 'html.parser')
+
+            # Get Total Pages
+            results_raw = soup.find(id='resultsDisplay').find_all('b')
+            results = int(str(results_raw[1]).replace('<b>', '').replace('</b>', ''))
+            pages = round(results / 50)
+            itemsPerPage = int(total / pages)
+
+            tickers = []
+            for currentPage in range(pages):
+                page = requests.get(l + '&page={}'.format(currentPage))
+                soup = BeautifulSoup(page.content, 'html.parser')
+                
+                companyTable = soup.find(id='CompanylistResults').find_all("a")
+                allTickers = []
+                for i in range(len(companyTable)):
+                    raw = companyTable[i].text.strip()
+                    if(len(raw) <= 5 and 'Name' not in raw):
+                        parsedTicker = raw
+                        allTickers.append(parsedTicker)
+                for t in range(itemsPerPage):
+                    tickers.append(allTickers[t])
+
+    print(tickers)
+    return tickers
 
 
 def getROIC(ticker):
@@ -158,21 +219,22 @@ def sortList(list, element, order):
                     output[j] = temp   
     return output
 
-
 if __name__ == '__main__':
-    tickers = [
-        'FB',
-        'MU',
-        'AMZN',
-        'MCD',
-        'PAGS',
-        'GLOB',
-        'MSFT',
-        'TSLA',
-        'AAPL',
-        'NVDA',
-        'AMD'
-    ]
+    tickers = getTickersByIndustry('Technology', 100)
+
+    # tickers = [
+    #     'FB',
+    #     'MU',
+    #     'AMZN',
+    #     'MCD',
+    #     'PAGS',
+    #     'GLOB',
+    #     'MSFT',
+    #     'TSLA',
+    #     'AAPL',
+    #     'NVDA',
+    #     'AMD'
+    # ]
     stats = []
 
     for ticker in tickers:
