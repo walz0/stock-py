@@ -1,6 +1,7 @@
 import requests
 from enum import Enum
 from bs4 import BeautifulSoup
+import util
 import sys
 
 def getStockPrice(ticker):
@@ -196,88 +197,5 @@ def getROIC(ticker):
     else:
         return 0 
 
-
-class Order(Enum):
-    descending = 0
-    ascending = 1
-
-def sortList(list, element, order):
-    output = list.copy()
-    if(order == Order.ascending):
-        for i in range(0, len(output)):
-            for j in range(0, len(output)):
-                if output[i][element] < output[j][element]:
-                    temp = output[i]
-                    output[i] = output[j]
-                    output[j] = temp
-    elif(order == Order.descending):
-        for i in range(0, len(output)):
-            for j in range(0, len(output)):
-                if output[i][element] > output[j][element]:
-                    temp = output[i]
-                    output[i] = output[j]
-                    output[j] = temp   
-    return output
-
 if __name__ == '__main__':
     tickers = getTickersByIndustry('Technology', 100)
-
-    # tickers = [
-    #     'FB',
-    #     'MU',
-    #     'AMZN',
-    #     'MCD',
-    #     'PAGS',
-    #     'GLOB',
-    #     'MSFT',
-    #     'TSLA',
-    #     'AAPL',
-    #     'NVDA',
-    #     'AMD'
-    # ]
-    stats = []
-
-    for ticker in tickers:
-        data = getStock(ticker)
-        print("Ticker: {}".format(ticker))
-        print("Price: ${}".format(data["price"]))
-        print("Change: ${}".format(data["change$"]))
-        print("Change: {}%".format(data["change%"]))
-        print("---------------------------------")
-
-    for ticker in tickers:
-        roic = getROIC(ticker)
-        if(roic != None):
-            roic = str(round(getROIC(ticker), 4) * 100)[0:5]
-        else:
-            roic = str(roic)
-        pe = getPE(ticker)
-        if(pe != 0):
-            earningsYield = 1 / pe
-        else:
-            earningsYield = 0
-        stats.append([ticker, roic, earningsYield])
-        print(ticker, 'ROIC:', roic + '%', 'Earnings Yield:', str(earningsYield)[0:5])
-    
-    roic_stats = sortList(stats, 1, Order.descending)
-    ey_stats = sortList(stats, 2, Order.descending) 
-
-    print("\nROIC:")
-    for s in roic_stats:
-        print(s)
-
-    print("Earnings Yield:")
-    for s in ey_stats:
-        print(s)
-
-    rank = []
-
-    for i, s in enumerate(roic_stats):
-        rank.append([roic_stats[i][0], str(roic_stats[i][1]) + '%', roic_stats[i][2], ey_stats.index(roic_stats[i]) + i])
-    
-    rank = sortList(rank, 3, Order.ascending)
-
-    print("-----------------------")
-    for i, r in enumerate(rank):
-        r[len(r) - 1] = i + 1
-        print(r)

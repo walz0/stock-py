@@ -1,8 +1,5 @@
-APPOINTMENTS
-    -Tomorrow (February 12) w/ advisor at 300 N. Jordan Ave.
-
 EALC-E111
-    -Complete readings for Wednesday 
+    - Reaction Paper #2 Due Saturday
 
 stock-py
     + Framework for updating / pulling new information 
@@ -14,3 +11,7 @@ stock-py
                 Outputs basic info (price, $, %)
         . Flowchart for processing command line
             (e.g. keyword -> tag(s))
+
+    + Function for pulling balance sheet as a JSON file
+    + Function for pulling income statement as a JSON file
+    + Function for pulling cash flow statement as a JSON file
