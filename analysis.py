@@ -5,7 +5,7 @@ import util
     Takes a list of tickers and calculates ROIC / Earnings Yield
     for all of them.
     Returns a ranked ascending list of stocks based upon 
-    ROIC / Earnings Yield.
+    ROIC / Earnings Yield. 
 """
 def btm (tickers):
     stats = []
