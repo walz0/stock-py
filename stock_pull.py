@@ -144,25 +144,6 @@ def getTickersByIndustry(industry, total):
 
 def getROIC(ticker):
     ticker = ticker.lower()
-    def parseData(items):
-        output = []
-        for item in items:
-            tag = soup.find(string=item)
-            if(tag != None):
-                parent = tag.find_parent('tr')
-                amounts = parent.findChildren('td')
-                dollars = []
-                for a in amounts:
-                    parsedAmount = str(a.text)
-                    delimiters = ['<td>', '</td>', '$', ',', '(', ')']
-                    if('$' in parsedAmount):
-                        for d in delimiters:
-                            parsedAmount = parsedAmount.replace(d, '')
-                        dollars.append(parsedAmount)
-                output.append(dollars)
-            else:
-                output.append(None)
-        return output
 
     # Pull data from the balance sheet
     page = requests.get(
@@ -174,7 +155,7 @@ def getROIC(ticker):
         'Long-Term Debt'
     ]
 
-    output = parseData(items)
+    output = util.parseData(items)
     if output[0] != None:
         totalLiabilities = output[0][0]
         totalAssets = output[1][0]

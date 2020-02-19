@@ -1,3 +1,6 @@
+from bs4 import BeautifulSoup
+from enum import Enum
+
 class Order(Enum):
     descending = 0
     ascending = 1
@@ -18,4 +21,24 @@ def sortList(list, element, order):
                     temp = output[i]
                     output[i] = output[j]
                     output[j] = temp   
+    return output
+
+def parseData(items):
+    output = []
+    for item in items:
+        tag = soup.find(string=item)
+        if(tag != None):
+            parent = tag.find_parent('tr')
+            amounts = parent.findChildren('td')
+            dollars = []
+            for a in amounts:
+                parsedAmount = str(a.text)
+                delimiters = ['<td>', '</td>', '$', ',', '(', ')']
+                if('$' in parsedAmount):
+                    for d in delimiters:
+                        parsedAmount = parsedAmount.replace(d, '')
+                    dollars.append(parsedAmount)
+            output.append(dollars)
+        else:
+            output.append(None)
     return output
