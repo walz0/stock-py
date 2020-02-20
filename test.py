@@ -6,10 +6,4 @@ import pprint
 
 
 if __name__ == "__main__":
-    # tickers = pull.getTickersByIndustry('Technology', 10)
-    while(True):
-        tickers = []
-        tickers.append(input('Enter a ticker:'))
-        for t in tickers:
-            print(t)
-            pprint.pprint(pull.getBalanceSheet(t))
+    pprint.pprint(pull.getIncomeStatement('fb'))
