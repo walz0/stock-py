@@ -1,17 +1,14 @@
 import stock_pull as pull
 import json_test as store 
+import pprint
 
 version = 1.0
 stdin = ''
 
-# All core functions
+# All accessor functions
 keywords = [
     'pull',
-]
-
-# All additional functions 
-tags = [
-    '-a' # Analysis
+    'analysis'
 ]
 
 # All forms of analysis
@@ -19,10 +16,34 @@ analysis = [
     'btm'
 ]
 
+# All core functions
+functions = {
+    'bal_sheet' : pull.getBalanceSheet,
+    'roic' : pull.getROIC,
+    'by_industry' : pull.getTickersByIndustry,
+    'earnings_yield' : pull.getEarningsYield,
+    'price' : pull.getStockPrice,
+    'dollar_chng' : pull.getDollarChange,
+    'percent_chng' : pull.getPercentChange,
+    'name' : pull.getCompanyName,
+    'stock' : pull.getStock,
+    'pe' : pull.getPE,
+    'industries' : pull.getIndustryNames
+}
+
 def parseInput(stdin):
+    stdin = stdin.lower()
     sel_keys = []
     sel_tags = []
     obj = []
+
+    if(stdin == 'help'):
+        print('FUNCTIONS:')
+        print('Syntax : [keyword] [tickers] [function]')
+        print('Example : pull [FB,MCD,HD, ...] bal_sheet')
+        for f in functions:
+            print(f)
+        return 
 
     # Parse Keywords
     for k in keywords:
@@ -59,20 +80,28 @@ def parseInput(stdin):
                 else:
                     obj.append(stdin[obj_index:])
                     break
-        return obj
-
-    # if(sel_keys[0] == 'pull'):
-    #     if(len(sel_tags) > 0):
-
-    # # Parse Tags
-    # for t in tags:
-    #     if(t in stdin):
-    #         sel_tags.append(t) 
-
+    
+    for k in sel_keys:
+        if(k == 'pull'):
+            for f in functions:
+                if(f in stdin):
+                    if(len(obj) > 1):
+                        output = []
+                        for o in obj:
+                            output += [functions[f](o)]
+                        return output
+                    else:
+                        return functions[f](obj)
+                    
 
 
 if __name__ == '__main__':
     print("--- stock-py v{} ---".format(version))
     while(True):
         stdin = input("> ")
-        print(parseInput(stdin))
+        output = parseInput(stdin)
+        if isinstance(output, list):
+            pprint.pprint(output)
+        elif output != None: 
+            print(output)
+        print('')

@@ -12,9 +12,5 @@ stock-py
         . Flowchart for processing command line
             (e.g. keyword -> tag(s))
 
-    + Function for pulling balance sheet 
-        . as a JSON file
     + Function for pulling income statement 
-        . as a JSON file
     + Function for pulling cash flow statement 
-        . as a JSON file

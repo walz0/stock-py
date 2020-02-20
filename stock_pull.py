@@ -122,6 +122,8 @@ def getTickersByIndustry(industry, total):
             results = int(str(results_raw[1]).replace('<b>', '').replace('</b>', ''))
             pages = round(results / 50)
             itemsPerPage = int(total / pages)
+            if(itemsPerPage < 1):
+                itemsPerPage = 1
 
             tickers = []
             for currentPage in range(pages):
@@ -137,13 +139,30 @@ def getTickersByIndustry(industry, total):
                         allTickers.append(parsedTicker)
                 for t in range(itemsPerPage):
                     tickers.append(allTickers[t])
-
-    print(tickers)
     return tickers
 
 
 def getROIC(ticker):
     ticker = ticker.lower()
+    def parseData(items):
+        output = []
+        for item in items:
+            tag = soup.find(string=item)
+            if(tag != None):
+                parent = tag.find_parent('tr')
+                amounts = parent.findChildren('td')
+                dollars = []
+                for a in amounts:
+                    parsedAmount = str(a.text)
+                    delimiters = ['<td>', '</td>', '$', ',', '(', ')']
+                    if('$' in parsedAmount):
+                        for d in delimiters:
+                            parsedAmount = parsedAmount.replace(d, '')
+                        dollars.append(parsedAmount)
+                output.append(dollars)
+            else:
+                output.append(None)
+        return output
 
     # Pull data from the balance sheet
     page = requests.get(
@@ -155,7 +174,7 @@ def getROIC(ticker):
         'Long-Term Debt'
     ]
 
-    output = util.parseData(items)
+    output = parseData(items)
     if output[0] != None:
         totalLiabilities = output[0][0]
         totalAssets = output[1][0]
@@ -176,4 +195,58 @@ def getROIC(ticker):
 
         return roic
     else:
-        return 0 
+        return 0
+
+
+def getBalanceSheet(ticker):
+    ticker = ticker.lower()
+
+    # Pull the web page
+    page = requests.get(
+        "https://old.nasdaq.com/symbol/{}/financials?query=balance-sheet".format(ticker))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    # Extract the table with Balance Sheet data
+    table = soup.find_all('table')[2]
+    
+    # Extract the time period
+    headings = table.find_all('th')
+    for i in range(len(headings)):
+        headings[i] = headings[i].text.strip()
+    period = headings[2:6]
+
+    # Slice list cutting off the first category
+    headings = headings[7:]
+
+    # Separate the table into its categories
+    currentAssets = {}
+    longTermAssets = {}
+    currentLiabilities = {}
+    stockHoldersEquity = {}
+
+    balanceSheet = {
+        'Current Assets' : currentAssets,
+        'Long-Term Assets' : longTermAssets,
+        'Current Liabilities' : currentLiabilities,
+        'Stock Holders Equity' : stockHoldersEquity
+    }
+
+    for item in balanceSheet:
+        for i in range(len(headings)):
+            if(headings[i] in balanceSheet):
+                headings = headings[i + 1:]
+                break
+            # Create a space for dollar amounts
+            amounts = []
+            # Find a parse all rows with dollar amounts
+            raw = soup.find(text=headings[i]).find_parent('tr')
+            raw_children = raw.findChildren('td')
+            for r in raw_children:
+                if(r.text != ""):
+                    amounts.append(r.text)
+
+            balanceSheet[item][headings[i]] = amounts
+
+    return balanceSheet
+
+if __name__ == "__main__":
+    print("")

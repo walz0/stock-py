@@ -22,23 +22,3 @@ def sortList(list, element, order):
                     output[i] = output[j]
                     output[j] = temp   
     return output
-
-def parseData(items):
-    output = []
-    for item in items:
-        tag = soup.find(string=item)
-        if(tag != None):
-            parent = tag.find_parent('tr')
-            amounts = parent.findChildren('td')
-            dollars = []
-            for a in amounts:
-                parsedAmount = str(a.text)
-                delimiters = ['<td>', '</td>', '$', ',', '(', ')']
-                if('$' in parsedAmount):
-                    for d in delimiters:
-                        parsedAmount = parsedAmount.replace(d, '')
-                    dollars.append(parsedAmount)
-            output.append(dollars)
-        else:
-            output.append(None)
-    return output
