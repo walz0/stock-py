@@ -2,7 +2,7 @@ EALC-E111
     - Reaction Paper #2 Due Saturday
 
 stock-py
-    + Framework for updating / pulling new information 
+    + Framework for updating / pulling new information
         . A sort of language for quick access to commands
             (e.g. 'pull ['FB', 'MCD', 'HD', ...] -> analysis.btm')
                 Outputs a list of stocks ranked by ROIC and Earnings Yield
@@ -12,6 +12,9 @@ stock-py
         . Flowchart for processing command line
             (e.g. keyword -> tag(s))
 
-    + Function for pulling balance sheet as a JSON file
-    + Function for pulling income statement as a JSON file
-    + Function for pulling cash flow statement as a JSON file
+    + Function for pulling balance sheet 
+        . as a JSON file
+    + Function for pulling income statement 
+        . as a JSON file
+    + Function for pulling cash flow statement 
+        . as a JSON file

@@ -177,6 +177,3 @@ def getROIC(ticker):
         return roic
     else:
         return 0 
-
-if __name__ == '__main__':
-    tickers = getTickersByIndustry('Technology', 100)
