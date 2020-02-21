@@ -18,13 +18,16 @@ analysis = [
 
 # All core functions
 functions = {
-    'bal_sheet' : pull.getBalanceSheet,
+    'bal-sheet' : pull.getBalanceSheet,
+    'income' : pull.getIncomeStatement,
+    'cash-flow' : pull.getCashFlow,
+    'ratios' : pull.getFinancialRatios,
     'roic' : pull.getROIC,
-    'by_industry' : pull.getTickersByIndustry,
-    'earnings_yield' : pull.getEarningsYield,
+    'by-industry' : pull.getTickersByIndustry,
+    'earnings-yield' : pull.getEarningsYield,
     'price' : pull.getStockPrice,
-    'dollar_chng' : pull.getDollarChange,
-    'percent_chng' : pull.getPercentChange,
+    'dollar-chng' : pull.getDollarChange,
+    'percent-chng' : pull.getPercentChange,
     'name' : pull.getCompanyName,
     'stock' : pull.getStock,
     'pe' : pull.getPE,

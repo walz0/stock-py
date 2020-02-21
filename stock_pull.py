@@ -346,6 +346,7 @@ def getCashFlow(ticker):
 
             incomeStatement[item][headings[i]] = amounts
 
+    incomeStatement[ticker] = "ticker"
     return incomeStatement
 
 
@@ -373,14 +374,14 @@ def getFinancialRatios(ticker):
     liquidityRatios = {}
     profitabilityRatios = {}
 
-    incomeStatement = {
+    financialRatios = {
         'Liquidity Ratios' : liquidityRatios,
         'Profitability Ratios': profitabilityRatios,
     }
 
-    for item in incomeStatement:
+    for item in financialRatios:
         for i in range(len(headings)):
-            if(headings[i] in incomeStatement):
+            if(headings[i] in financialRatios):
                 headings = headings[i + 1:]
                 break
             # Create a space for dollar amounts
@@ -392,9 +393,10 @@ def getFinancialRatios(ticker):
                 if(r.text != ""):
                     amounts.append(r.text)
 
-            incomeStatement[item][headings[i]] = amounts
+            financialRatios[item][headings[i]] = amounts
 
-    return incomeStatement
+    financialRatios[ticker] = "ticker"
+    return financialRatios 
 
 
 
