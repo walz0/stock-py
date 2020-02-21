@@ -1,9 +1,6 @@
 import requests
-from enum import Enum
 from bs4 import BeautifulSoup
-import pprint
 import util
-import sys
 
 def getStockPrice(ticker):
     page = requests.get("https://finance.yahoo.com/quote/{}".format(ticker))
@@ -397,9 +394,3 @@ def getFinancialRatios(ticker):
 
     financialRatios[ticker] = "ticker"
     return financialRatios 
-
-
-
-
-if __name__ == "__main__":
-    pprint.pprint(getFinancialRatios('fb'))
