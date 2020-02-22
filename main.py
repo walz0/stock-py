@@ -97,7 +97,6 @@ def parseInput(stdin):
                         return functions[f](obj)
                     
 
-
 if __name__ == '__main__':
     print("--- stock-py v{} ---".format(version))
     while(True):

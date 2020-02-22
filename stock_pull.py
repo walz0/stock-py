@@ -243,6 +243,7 @@ def getBalanceSheet(ticker):
 
             balanceSheet[item][headings[i]] = amounts
 
+    balanceSheet["ticker"] = ticker.upper()
     return balanceSheet
 
 
@@ -290,6 +291,7 @@ def getIncomeStatement (ticker):
 
             incomeStatement[item][headings[i]] = amounts
 
+    incomeStatement["ticker"] = ticker.upper()
     return incomeStatement
 
 
@@ -327,9 +329,9 @@ def getCashFlow(ticker):
         'Cash Flows-Financing Activities' : cashFlowsFinancing 
     }
 
-    for item in incomeStatement:
+    for item in cashFlow:
         for i in range(len(headings)):
-            if(headings[i] in incomeStatement):
+            if(headings[i] in cashFlow):
                 headings = headings[i + 1:]
                 break
             # Create a space for dollar amounts
@@ -341,10 +343,10 @@ def getCashFlow(ticker):
                 if(r.text != ""):
                     amounts.append(r.text)
 
-            incomeStatement[item][headings[i]] = amounts
+            cashFlow[item][headings[i]] = amounts
 
-    incomeStatement[ticker] = "ticker"
-    return incomeStatement
+    cashFlow[ticker] = "ticker"
+    return cashFlow 
 
 
 def getFinancialRatios(ticker):
