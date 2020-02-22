@@ -345,7 +345,7 @@ def getCashFlow(ticker):
 
             cashFlow[item][headings[i]] = amounts
 
-    cashFlow[ticker] = "ticker"
+    cashFlow[ticker] = ticker.upper()
     return cashFlow 
 
 
@@ -394,5 +394,5 @@ def getFinancialRatios(ticker):
 
             financialRatios[item][headings[i]] = amounts
 
-    financialRatios[ticker] = "ticker"
+    financialRatios[ticker] = ticker.upper()
     return financialRatios 

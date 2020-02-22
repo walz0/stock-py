@@ -2,4 +2,4 @@ EALC-E111
     - Reaction Paper #2 Due Saturday
 
 stock-py
-    
+    + Get EBITDA Function
