@@ -6,4 +6,3 @@ import pprint
 
 
 if __name__ == "__main__":
-    pprint.pprint(pull.getIncomeStatement('fb'))

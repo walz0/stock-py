@@ -1,5 +1,12 @@
 EALC-E111
-    - Reaction Paper #2 Due Saturday
+    - Complete Reading for Wednesday 
+    - Midterm Tuesday March 11
+
+EDUC-X158
+    - Complete Note Taking Journal #5 Due Thursday 2/27
+
+MATH-M212
+    -
 
 stock-py
     + Function for pulling cash flow statement 
