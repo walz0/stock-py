@@ -1,8 +1,6 @@
 import requests
-from enum import Enum
 from bs4 import BeautifulSoup
 import util
-import sys
 
 def getStockPrice(ticker):
     page = requests.get("https://finance.yahoo.com/quote/{}".format(ticker))
@@ -109,7 +107,6 @@ def getTickersByIndustry(industry, total):
         links.append("https://old.nasdaq.com" + i.get('href'))
     
     pages = 0
-
     tickers = []
     
     for l in links:
@@ -246,6 +243,7 @@ def getBalanceSheet(ticker):
 
             balanceSheet[item][headings[i]] = amounts
 
+    balanceSheet["ticker"] = ticker.upper()
     return balanceSheet
 
 
@@ -293,8 +291,108 @@ def getIncomeStatement (ticker):
 
             incomeStatement[item][headings[i]] = amounts
 
+    incomeStatement["ticker"] = ticker.upper()
     return incomeStatement
 
 
-if __name__ == "__main__":
-    print("")
+def getCashFlow(ticker):
+    ticker = ticker.lower()
+
+    # Pull the web page
+    page = requests.get(
+        "https://old.nasdaq.com/symbol/{}/financials?query=cash-flow".format(ticker))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    # Extract the table with Balance Sheet data
+    table = soup.find_all('table')[2]
+    
+    # Extract the time period
+    headings = table.find_all('th')
+    for i in range(len(headings)):
+        headings[i] = headings[i].text.strip()
+    period = headings[2:6]
+
+    # Slice list cutting off the period
+    headings = headings[6:]
+
+    # Separate the table into its categories
+    other = {}
+    changesInOperating = {}
+    cashFlowsOperating = {}
+    cashFlowsInvesting = {}
+    cashFlowsFinancing = {}
+
+    incomeStatement = {
+        'Other:' : other,
+        'Cash Flows-Operating Activities' : cashFlowsOperating,
+        'Changes in Operating Activities': changesInOperating,
+        'Cash Flows-Investing Activities' : cashFlowsInvesting,
+        'Cash Flows-Financing Activities' : cashFlowsFinancing 
+    }
+
+    for item in cashFlow:
+        for i in range(len(headings)):
+            if(headings[i] in cashFlow):
+                headings = headings[i + 1:]
+                break
+            # Create a space for dollar amounts
+            amounts = []
+            # Find a parse all rows with dollar amounts
+            raw = soup.find(text=headings[i]).find_parent('tr')
+            raw_children = raw.findChildren('td')
+            for r in raw_children:
+                if(r.text != ""):
+                    amounts.append(r.text)
+
+            cashFlow[item][headings[i]] = amounts
+
+    cashFlow[ticker] = ticker.upper()
+    return cashFlow 
+
+
+def getFinancialRatios(ticker):
+    ticker = ticker.lower()
+
+    # Pull the web page
+    page = requests.get(
+        "https://old.nasdaq.com/symbol/{}/financials?query=ratios".format(ticker))
+    soup = BeautifulSoup(page.content, 'html.parser')
+    # Extract the table with Balance Sheet data
+    table = soup.find_all('table')[2]
+    
+    # Extract the time period
+    headings = table.find_all('th')
+    for i in range(len(headings)):
+        headings[i] = headings[i].text.strip()
+    period = headings[2:6]
+
+    # Slice list cutting off the period
+    headings = headings[7:]
+
+    # Separate the table into its categories
+    other = {}
+    liquidityRatios = {}
+    profitabilityRatios = {}
+
+    financialRatios = {
+        'Liquidity Ratios' : liquidityRatios,
+        'Profitability Ratios': profitabilityRatios,
+    }
+
+    for item in financialRatios:
+        for i in range(len(headings)):
+            if(headings[i] in financialRatios):
+                headings = headings[i + 1:]
+                break
+            # Create a space for dollar amounts
+            amounts = []
+            # Find a parse all rows with dollar amounts
+            raw = soup.find(text=headings[i]).find_parent('tr')
+            raw_children = raw.findChildren('td')
+            for r in raw_children:
+                if(r.text != ""):
+                    amounts.append(r.text)
+
+            financialRatios[item][headings[i]] = amounts
+
+    financialRatios[ticker] = ticker.upper()
+    return financialRatios 
