@@ -81,7 +81,7 @@ def getPE(ticker):
 
 
 def getEarningsYield(ticker):
-    return 1 / getPE()
+    return 1 / getPE(ticker)
 
 
 def getIndustryNames():
@@ -304,7 +304,7 @@ def getCashFlow(ticker):
     soup = BeautifulSoup(page.content, 'html.parser')
     # Extract the table with Balance Sheet data
     table = soup.find_all('table')[2]
-    
+
     # Extract the time period
     headings = table.find_all('th')
     for i in range(len(headings)):
@@ -321,7 +321,7 @@ def getCashFlow(ticker):
     cashFlowsInvesting = {}
     cashFlowsFinancing = {}
 
-    incomeStatement = {
+    cashFlow = {
         'Other:' : other,
         'Cash Flows-Operating Activities' : cashFlowsOperating,
         'Changes in Operating Activities': changesInOperating,
@@ -369,7 +369,6 @@ def getFinancialRatios(ticker):
     headings = headings[7:]
 
     # Separate the table into its categories
-    other = {}
     liquidityRatios = {}
     profitabilityRatios = {}
 
