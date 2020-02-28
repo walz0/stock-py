@@ -1,5 +1,6 @@
 import stock_pull as pull
 import util
+import pprint
 
 """
     Takes a list of tickers and calculates ROIC / Earnings Yield
@@ -33,10 +34,10 @@ def btm (tickers):
 
     rank = util.sortList(rank, 3, util.Order.ascending)
 
-    for i in range(len(rank)):
-        r[len(r) - i] = i + 1
+    for i, r in enumerate(rank):
+        r[len(r) - 1] = i + 1
     
     return rank
 
 if __name__ == "__main__":
-    btm(['FB', 'MCD', 'HD'])
+    pprint.pprint(btm(['FB', 'MCD', 'HD']))
