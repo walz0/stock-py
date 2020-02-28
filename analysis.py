@@ -24,17 +24,17 @@ def btm (tickers):
         stats.append([ticker, roic, earningsYield])
         print("{}% Complete...".format(len(stats) / len(tickers)))
 
-    roic_stats = util.sortList(stats, 1, Order.descending)
-    ey_stats = util.sortList(stats, 2, Order.descending) 
+    roic_stats = util.sortList(stats, 1, util.Order.descending)
+    ey_stats = util.sortList(stats, 2, util.Order.descending) 
 
     rank = []
     for i, s in enumerate(roic_stats):
         rank.append([roic_stats[i][0], str(roic_stats[i][1]) + '%', roic_stats[i][2], ey_stats.index(roic_stats[i]) + i])
 
-    rank = util.sortList(rank, 3, Order.ascending)
+    rank = util.sortList(rank, 3, util.Order.ascending)
 
     for i in range(len(rank)):
-        r[len(r) - 1] = i + 1
+        r[len(r) - i] = i + 1
     
     return rank
 
