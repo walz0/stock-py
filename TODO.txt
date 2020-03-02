@@ -1,12 +1,19 @@
+21CS
+	- Give the MSAPR to instructors tomorrow
+
 EALC-E111
-    - Complete Reading for Wednesday 
-    - Midterm Tuesday March 11
+	- Complete Reading for Monday 
+	- Midterm Tuesday March 11
 
 EDUC-X158
-    - Complete Note Taking Journal #5 Due Thursday 2/27
 
 MATH-M212
-    -
+	(1/16) 
+	- HW6
+		//. (Sec 6.2: 7, 10, 14, 20, 22)
+		. (Sec 6.3: 16, 18, 20, 22, 25 (only set the integral up for 22 and 25), 46)
+		. (Sec 6.4: 8, 10, 16, 18, 24)
+	- Study for Exam 2 on March 6 
 
 stock-py
     + Get EBITDA Function
