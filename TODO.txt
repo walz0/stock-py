@@ -8,7 +8,6 @@ EALC-E111
 EDUC-X158
 
 MATH-M212
-	(1/16) 
 	- HW6
 		//. (Sec 6.2: 7, 10, 14, 20, 22)
 		. (Sec 6.3: 16, 18, 20, 22, 25 (only set the integral up for 22 and 25), 46)
