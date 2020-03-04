@@ -1,15 +1,17 @@
 21CS
-	- Give the MSAPR to EDUC-X158 instructor tomorrow
+	- Deliver MSAPR forms to 300 N. Jordan
 
 EALC-E111
-	- Complete Reading for Wednesday 
 	- Midterm Tuesday March 11
 
 EDUC-X158
-	- Complete Note-Taking Journal #6 for Thursday
+	- Submit Note-Taking Journal #6 for Thursday
 
 MATH-M212
 	- Study for Exam 2 on March 6 
 
 stock-py
     + Get EBITDA Function
+    	incomeStatement["Net Income"][0]
+    	incomeStatement["Income Tax"][0]
+    	incomeStatement["Interest Expense"][0]
